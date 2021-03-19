@@ -1,7 +1,7 @@
 
 class Todo {
   final String text;
-  final bool done;
+  bool done;
 
   Todo(this.text, this.done);
 }
