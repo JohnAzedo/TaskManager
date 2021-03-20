@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:todos/components/customDismissible.dart';
 import 'package:todos/screens/todos/components/dialog.dart';
 import 'package:todos/components/noAppBar.dart';
 import 'package:todos/models/todos.dart';
@@ -28,6 +29,13 @@ class _ListTodoState extends State<ListTodo> {
     });
   }
 
+  void deleteTodo(index, Todo todo) {
+    setState(() {
+      todos.removeAt(index);
+      repository.delete(todo);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +49,11 @@ class _ListTodoState extends State<ListTodo> {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   final Todo todo = todos[index];
-                  return ItemTodo(todo);
+                  return ItemTodo(
+                    todo: todo,
+                    repository: repository,
+                    onDismissed: () => deleteTodo(index, todo),
+                  );
                 }),
           )),
       floatingActionButton: FloatingActionButton(
@@ -54,7 +66,7 @@ class _ListTodoState extends State<ListTodo> {
               return TodoDialog();
             },
           ).then((todo) {
-            repository.create(todo).then((response){
+            repository.create(todo).then((response) {
               setState(() {
                 todos.add(response);
               });
@@ -67,29 +79,37 @@ class _ListTodoState extends State<ListTodo> {
 }
 
 class ItemTodo extends StatefulWidget {
-  final Todo _todo;
+  final Todo todo;
+  final TodoRepository repository;
+  final VoidCallback onDismissed;
 
-  ItemTodo(this._todo);
+  ItemTodo({this.todo, this.repository, this.onDismissed});
 
   @override
   _ItemTodoState createState() => _ItemTodoState();
 }
 
 class _ItemTodoState extends State<ItemTodo> {
-  final TodoRepository repository = TodoRepository();
-
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: CheckboxListTile(
-        title: Text(widget._todo.text),
-        value: widget._todo.done,
-        onChanged: (bool value) {
-          setState(() {
-            widget._todo.done = value;
-            repository.updateDone(widget._todo);
-          });
-        },
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: CustomDismissible(
+        key: Key(widget.todo.id.toString()),
+        onDismissed: (direction) => widget.onDismissed(),
+        child: Card(
+          margin: EdgeInsets.all(0),
+          child: CheckboxListTile(
+            title: Text(widget.todo.text),
+            value: widget.todo.done,
+            onChanged: (bool value) {
+              setState(() {
+                widget.todo.done = value;
+                widget.repository.updateDone(widget.todo);
+              });
+            },
+          ),
+        ),
       ),
     );
   }
