@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:todos/components/customDismissible.dart';
+import 'package:todos/components/noTitleAppBar.dart';
 import 'package:todos/screens/todos/components/dialog.dart';
 import 'package:todos/components/noAppBar.dart';
 import 'package:todos/models/todos.dart';
@@ -39,25 +42,90 @@ class _ListTodoState extends State<ListTodo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: NoAppBar(),
-      body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: RefreshIndicator(
-            onRefresh: _getData,
-            child: ListView.builder(
-                itemCount: todos.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  final Todo todo = todos[index];
-                  return ItemTodo(
-                    todo: todo,
-                    repository: repository,
-                    onDismissed: () => deleteTodo(index, todo),
-                  );
-                }),
-          )),
+      backgroundColor: Theme.of(context).primaryColor,
+      appBar: NoTitleAppBar(),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 64.0,
+              vertical: 24.0,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(bottom: 16.0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      CupertinoIcons.book,
+                      size: 32.0,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.all(Radius.circular(50.0))),
+                ),
+                Text(
+                  "All",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 32.0,
+                      fontWeight: FontWeight.w500),
+                ),
+                Text(
+                  "${todos.length} tasks",
+                  style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w300),
+                )
+              ],
+            ),
+          ),
+          Expanded(
+            child: SizedBox(
+              width: double.infinity,
+              child: Card(
+                margin: const EdgeInsets.all(0.0),
+                semanticContainer: true,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 0.0,
+                    vertical: 32.0,
+                  ),
+                  child: RefreshIndicator(
+                    onRefresh: _getData,
+                    child: ListView.builder(
+                        itemCount: todos.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          final Todo todo = todos[index];
+                          return ItemTodo(
+                            todo: todo,
+                            repository: repository,
+                            onDismissed: () => deleteTodo(index, todo),
+                          );
+                        }),
+                  ),
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(32.0),
+                    bottom: Radius.zero,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColorDark,
+        backgroundColor: Theme.of(context).primaryColor,
         child: Icon(Icons.add),
         onPressed: () {
           showDialog(
@@ -92,23 +160,28 @@ class ItemTodo extends StatefulWidget {
 class _ItemTodoState extends State<ItemTodo> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: CustomDismissible(
-        key: Key(widget.todo.id.toString()),
-        onDismissed: (direction) => widget.onDismissed(),
-        child: Card(
-          margin: EdgeInsets.all(0),
-          child: CheckboxListTile(
-            title: Text(widget.todo.text),
-            value: widget.todo.done,
-            onChanged: (bool value) {
-              setState(() {
-                widget.todo.done = value;
-                widget.repository.updateDone(widget.todo);
-              });
-            },
+    return CustomDismissible(
+      key: Key(widget.todo.id.toString()),
+      onDismissed: (direction) => widget.onDismissed(),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 0.0,
+          horizontal: 16.0
+        ),
+        child: CheckboxListTile(
+          title: Text(
+            widget.todo.text,
+            style: TextStyle(
+              fontSize: 20.0
+            ),
           ),
+          value: widget.todo.done,
+          onChanged: (bool value) {
+            setState(() {
+              widget.todo.done = value;
+              widget.repository.updateDone(widget.todo);
+            });
+          },
         ),
       ),
     );

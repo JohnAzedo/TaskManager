@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todos/components/noAppBar.dart';
-import 'package:todos/screens/lists/components/customCard.dart';
+import 'package:todos/screens/categories/components/customCard.dart';
 
 class Lists extends StatelessWidget {
   @override
