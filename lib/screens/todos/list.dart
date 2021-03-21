@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:flutter/services.dart';
 import 'package:todos/components/customDismissible.dart';
 import 'package:todos/components/noTitleAppBar.dart';
 import 'package:todos/screens/todos/components/dialog.dart';
-import 'package:todos/components/noAppBar.dart';
 import 'package:todos/models/todos.dart';
 import 'package:todos/repositories/todos.dart';
 
