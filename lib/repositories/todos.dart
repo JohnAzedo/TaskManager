@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:todos/models/todos.dart';
 
 class TodoRepository {
+  String ipAddress = "http://192.168.1.12:8000";
+
   Future<List<Todo>> fetchAll() async {
-    Response response = await new Dio().get("http://192.168.1.12:8000/todos/");
+    Response response = await new Dio().get("${ipAddress}/todos/");
     final List<Todo> todos = [];
     for (dynamic json in response.data) {
       todos.add(Todo.fromJson(json));
@@ -21,7 +23,7 @@ class TodoRepository {
     };
 
     await new Dio().patch(
-      "http://192.168.1.12:8000/todos/${todo.id}",
+      "${ipAddress}/${todo.id}",
       data: jsonEncode(data),
     );
   }
@@ -31,12 +33,12 @@ class TodoRepository {
       "text": todo.text,
     };
     Response response = await new Dio()
-        .post("http://192.168.1.12:8000/todos/", data: jsonEncode(data));
+        .post("${ipAddress}/todos/", data: jsonEncode(data));
 
     return Todo.fromJson(response.data);
   }
 
   Future<void> delete(Todo todo) async {
-    await new Dio().delete("http://192.168.1.12:8000/todos/${todo.id}");
+    await new Dio().delete("${ipAddress}/todos/${todo.id}");
   }
 }
