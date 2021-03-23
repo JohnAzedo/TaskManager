@@ -17,7 +17,7 @@ class TodosApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ListTodo(),
+      home: ListCategory(),
       theme: ThemeData(
         primaryColor: Color(0xff5786ff),
         primaryColorLight: Color(0xff5786ff),

@@ -1,15 +1,13 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:todos/models/todos.dart';
+import 'package:todos/repositories/repository.dart';
 
-class TodoRepository {
-  String ipAddress = "http://192.168.1.12:8000";
+class TodoRepository extends Repository{
+  final String baseUrl = "todos";
 
   Future<List<Todo>> fetchAll() async {
-    Response response = await new Dio().get("${ipAddress}/todos/");
+    Response response = await dio.get("$ipAddress/$baseUrl");
     final List<Todo> todos = [];
     for (dynamic json in response.data) {
       todos.add(Todo.fromJson(json));
@@ -22,8 +20,8 @@ class TodoRepository {
       "done": todo.done,
     };
 
-    await new Dio().patch(
-      "${ipAddress}/${todo.id}",
+    await dio.patch(
+      "$ipAddress/$baseUrl/${todo.id}",
       data: jsonEncode(data),
     );
   }
@@ -32,13 +30,12 @@ class TodoRepository {
     Map<String, dynamic> data = {
       "text": todo.text,
     };
-    Response response = await new Dio()
-        .post("${ipAddress}/todos/", data: jsonEncode(data));
-
+    Response response = await dio
+        .post("$ipAddress/$baseUrl", data: jsonEncode(data));
     return Todo.fromJson(response.data);
   }
 
   Future<void> delete(Todo todo) async {
-    await new Dio().delete("${ipAddress}/todos/${todo.id}");
+    await dio.delete("$ipAddress/$baseUrl/${todo.id}");
   }
 }
