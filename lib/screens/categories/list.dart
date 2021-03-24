@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:todos/components/hexColor.dart';
 import 'package:todos/components/noAppBar.dart';
 import 'package:todos/models/categories.dart';
@@ -34,8 +36,8 @@ class _ListCategoryState extends State<ListCategory> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(24.0),
-        child: NoAppBar(),
+        preferredSize: Size.fromHeight(40.0),
+        child: NoAppBar(context),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,10 +48,41 @@ class _ListCategoryState extends State<ListCategory> {
               vertical: 8.0,
             ),
             child: Text(
-              'Lists',
+              'Categories ',
               style: TextStyle(
                 fontSize: 32.0,
                 fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 0.0,
+            ),
+            child: TextField(
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+              ),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.black12,
+                hintText: 'Search',
+                hintStyle: TextStyle(
+                  color: Colors.black38,
+                ),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(24.0),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(24.0),
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 0.0,
+                ),
               ),
             ),
           ),
@@ -71,9 +104,13 @@ class _ListCategoryState extends State<ListCategory> {
                 itemBuilder: (BuildContext context, index) {
                   Category category = categories[index];
                   return CustomCard(
-                    icon: IconData(category.icon_code, fontFamily: 'MaterialIcons'),
+                    icon: IconData(
+                      category.iconCode,
+                      fontFamily: CupertinoIcons.iconFont,
+                      fontPackage: CupertinoIcons.iconFontPackage,
+                    ),
                     title: category.name,
-                    subtitle: "0 tasks",
+                    subtitle: "${category.countTodo} tasks",
                     iconColor: HexColor(category.color),
                   );
                 },
