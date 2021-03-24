@@ -93,12 +93,7 @@ class _ListCategoryState extends State<ListCategory> {
             ),
             child: RefreshIndicator(
               onRefresh: _getData,
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 5.0,
-                  mainAxisSpacing: 5.0,
-                ),
+              child: ListView.builder(
                 shrinkWrap: true,
                 itemCount: categories.length,
                 itemBuilder: (BuildContext context, index) {

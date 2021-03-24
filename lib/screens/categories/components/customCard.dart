@@ -15,7 +15,7 @@ class CustomCard extends StatelessWidget {
       child: Material(
         color: Colors.white,
         child: InkWell(
-          onTap: (){
+          onTap: () {
             debugPrint(this.title);
           },
           child: Padding(
@@ -34,13 +34,13 @@ class CustomCard extends StatelessWidget {
                   children: [
                     Text(
                       title,
+                      maxLines: 2,
                       style: TextStyle(
                           fontSize: 24.0, fontWeight: FontWeight.w500),
                     ),
                     Text(
                       subtitle,
-                      style:
-                      TextStyle(fontSize: 16.0, color: Colors.black45),
+                      style: TextStyle(fontSize: 16.0, color: Colors.black45),
                     )
                   ],
                 ),
