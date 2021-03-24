@@ -12,33 +12,41 @@ class CustomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(
-              icon,
-              size: 40.0,
-              color: iconColor,
-            ),
-            Column(
+      child: Material(
+        color: Colors.white,
+        child: InkWell(
+          onTap: (){
+            debugPrint(this.title);
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                      fontSize: 24.0, fontWeight: FontWeight.w500),
+                Icon(
+                  icon,
+                  size: 40.0,
+                  color: iconColor,
                 ),
-                Text(
-                  subtitle,
-                  style:
-                  TextStyle(fontSize: 16.0, color: Colors.black45),
-                )
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                          fontSize: 24.0, fontWeight: FontWeight.w500),
+                    ),
+                    Text(
+                      subtitle,
+                      style:
+                      TextStyle(fontSize: 16.0, color: Colors.black45),
+                    )
+                  ],
+                ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );
