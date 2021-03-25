@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:todos/models/categories.dart';
 import 'package:todos/models/todos.dart';
 import 'package:todos/repositories/repository.dart';
 
 class TodoRepository extends Repository{
   final String baseUrl = "todos";
 
-  Future<List<Todo>> fetchAll() async {
+  Future<List<Todo>> fetchAll(Category category) async {
     Response response = await dio.get("$ipAddress/$baseUrl");
     final List<Todo> todos = [];
     for (dynamic json in response.data) {

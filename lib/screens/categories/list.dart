@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:todos/components/hexColor.dart';
 import 'package:todos/components/noAppBar.dart';
 import 'package:todos/models/categories.dart';
 import 'package:todos/repositories/categories.dart';
 import 'package:todos/screens/categories/components/customCard.dart';
+import 'package:todos/screens/todos/list.dart';
 
 class ListCategory extends StatefulWidget {
   @override
@@ -27,9 +27,16 @@ class _ListCategoryState extends State<ListCategory> {
     return repository.fetchAll().then((categories) {
       setState(() {
         this.categories = categories;
-        debugPrint(categories.toString());
       });
     });
+  }
+
+  void navigateToTodo(BuildContext context, Category category){
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ListTodo(category),
+      ),
+    );
   }
 
   @override
@@ -93,7 +100,12 @@ class _ListCategoryState extends State<ListCategory> {
             ),
             child: RefreshIndicator(
               onRefresh: _getData,
-              child: ListView.builder(
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 3.0,
+                  mainAxisSpacing: 3.0
+                ),
                 shrinkWrap: true,
                 itemCount: categories.length,
                 itemBuilder: (BuildContext context, index) {
@@ -107,6 +119,7 @@ class _ListCategoryState extends State<ListCategory> {
                     title: category.name,
                     subtitle: "${category.countTodo} tasks",
                     iconColor: HexColor(category.color),
+                    onTap: () => navigateToTodo(context, category),
                   );
                 },
               ),

@@ -6,8 +6,15 @@ class CustomCard extends StatelessWidget {
   final String title;
   final String subtitle;
   final Color iconColor;
+  final Function onTap;
 
-  CustomCard({this.icon, this.title, this.subtitle, this.iconColor});
+  CustomCard({
+    @required this.icon,
+    @required this.title,
+    @required this.subtitle,
+    @required this.iconColor,
+    @required this.onTap
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +22,7 @@ class CustomCard extends StatelessWidget {
       child: Material(
         color: Colors.white,
         child: InkWell(
-          onTap: () {
-            debugPrint(this.title);
-          },
+          onTap: () => onTap(),
           child: Padding(
             padding: const EdgeInsets.all(24.0),
             child: Column(

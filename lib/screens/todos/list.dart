@@ -2,12 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:todos/components/customDismissible.dart';
+import 'package:todos/components/hexColor.dart';
 import 'package:todos/components/noTitleAppBar.dart';
+import 'package:todos/models/categories.dart';
 import 'package:todos/screens/todos/components/dialog.dart';
 import 'package:todos/models/todos.dart';
 import 'package:todos/repositories/todos.dart';
 
 class ListTodo extends StatefulWidget {
+  final Category category;
+  ListTodo(this.category);
+
   @override
   _ListTodoState createState() => _ListTodoState();
 }
@@ -23,7 +28,7 @@ class _ListTodoState extends State<ListTodo> {
   }
 
   Future<void> _getData() async {
-    return repository.fetchAll().then((todos) {
+    return repository.fetchAll(widget.category).then((todos) {
       setState(() {
         this.todos = todos;
       });
@@ -40,7 +45,7 @@ class _ListTodoState extends State<ListTodo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: HexColor(widget.category.color),
       appBar: NoTitleAppBar(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,9 +63,13 @@ class _ListTodoState extends State<ListTodo> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Icon(
-                      CupertinoIcons.book,
+                        IconData(
+                          widget.category.iconCode,
+                          fontFamily: CupertinoIcons.iconFont,
+                          fontPackage: CupertinoIcons.iconFontPackage,
+                        ),
                       size: 32.0,
-                      color: Theme.of(context).primaryColor,
+                      color: HexColor(widget.category.color),
                     ),
                   ),
                   decoration: BoxDecoration(
@@ -69,14 +78,14 @@ class _ListTodoState extends State<ListTodo> {
                       borderRadius: BorderRadius.all(Radius.circular(50.0))),
                 ),
                 Text(
-                  "All",
+                  widget.category.name,
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 32.0,
                       fontWeight: FontWeight.w500),
                 ),
                 Text(
-                  "${todos.length} tasks",
+                  "${widget.category.countTodo} tasks",
                   style: TextStyle(
                       fontSize: 20.0,
                       color: Colors.white,
