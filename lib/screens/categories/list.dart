@@ -128,6 +128,7 @@ class _ListCategoryState extends State<ListCategory> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).primaryColor,
         onPressed: () {},
         child: Icon(CupertinoIcons.add),
       ),

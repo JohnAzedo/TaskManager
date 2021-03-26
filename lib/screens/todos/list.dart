@@ -85,7 +85,7 @@ class _ListTodoState extends State<ListTodo> {
                       fontWeight: FontWeight.w500),
                 ),
                 Text(
-                  "${widget.category.countTodo} tasks",
+                  "${todos.length} tasks",
                   style: TextStyle(
                       fontSize: 20.0,
                       color: Colors.white,
@@ -133,7 +133,7 @@ class _ListTodoState extends State<ListTodo> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
-        child: Icon(Icons.add),
+        child: Icon(CupertinoIcons.add),
         onPressed: () {
           showDialog(
             context: context,
@@ -141,7 +141,7 @@ class _ListTodoState extends State<ListTodo> {
               return TodoDialog();
             },
           ).then((todo) {
-            repository.create(todo).then((response) {
+            repository.create(todo, widget.category).then((response) {
               setState(() {
                 todos.add(response);
               });

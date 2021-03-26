@@ -8,7 +8,7 @@ class TodoRepository extends Repository{
   final String baseUrl = "todos";
 
   Future<List<Todo>> fetchAll(Category category) async {
-    Response response = await dio.get("$ipAddress/$baseUrl");
+    Response response = await dio.get("$ipAddress/$baseUrl?category=${category.id}");
     final List<Todo> todos = [];
     for (dynamic json in response.data) {
       todos.add(Todo.fromJson(json));
@@ -27,12 +27,13 @@ class TodoRepository extends Repository{
     );
   }
 
-  Future<Todo> create(Todo todo) async {
+  Future<Todo> create(Todo todo, Category category) async {
     Map<String, dynamic> data = {
       "text": todo.text,
+      "category": category.id
     };
     Response response = await dio
-        .post("$ipAddress/$baseUrl", data: jsonEncode(data));
+        .post("$ipAddress/$baseUrl/", data: jsonEncode(data));
     return Todo.fromJson(response.data);
   }
 
