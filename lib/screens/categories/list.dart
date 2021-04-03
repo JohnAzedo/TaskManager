@@ -6,6 +6,7 @@ import 'package:todos/components/noAppBar.dart';
 import 'package:todos/models/categories.dart';
 import 'package:todos/repositories/categories.dart';
 import 'package:todos/screens/categories/components/customCard.dart';
+import 'package:todos/screens/categories/components/dialog.dart';
 import 'package:todos/screens/todos/list.dart';
 
 class ListCategory extends StatefulWidget {
@@ -46,8 +47,7 @@ class _ListCategoryState extends State<ListCategory> {
         preferredSize: Size.fromHeight(40.0),
         child: NoAppBar(context),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: Wrap(
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -129,7 +129,14 @@ class _ListCategoryState extends State<ListCategory> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
-        onPressed: () {},
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return CategoryDialog();
+            },
+          );
+        },
         child: Icon(CupertinoIcons.add),
       ),
     );
