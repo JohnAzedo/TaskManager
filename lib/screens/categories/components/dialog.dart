@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todos/models/categories.dart';
 import 'package:todos/models/todos.dart';
@@ -10,7 +11,8 @@ class CategoryDialog extends StatefulWidget {
 
 class _CategoryDialogState extends State<CategoryDialog> {
   final TextEditingController controller = new TextEditingController();
-  String selectedDropDownItem = 'Azul';
+  String colorSelected = 'Azul';
+  int iconSelected = 62439;
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +34,10 @@ class _CategoryDialogState extends State<CategoryDialog> {
                 width: double.infinity,
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
-                    value: selectedDropDownItem,
+                    value: colorSelected,
                     onChanged: (String value) {
                       setState(() {
-                        selectedDropDownItem = value;
+                        colorSelected = value;
                       });
                     },
                     items: <String>['Azul', 'Vermelho', 'Vinho', 'Verde']
@@ -46,6 +48,32 @@ class _CategoryDialogState extends State<CategoryDialog> {
                           value,
                           style: TextStyle(fontSize: 20.0),
                         ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<int>(
+                    value: iconSelected,
+                    onChanged: (int value) {
+                      setState(() {
+                        iconSelected = value;
+                      });
+                    },
+                    items: <int>[62836, 62856, 62433, 62439]
+                        .map((int value) {
+                      return DropdownMenuItem(
+                        value: value,
+                        child: Icon(
+                          IconData(
+                            value,
+                            fontFamily: CupertinoIcons.iconFont,
+                            fontPackage: CupertinoIcons.iconFontPackage,
+                          ),
+                        )
                       );
                     }).toList(),
                   ),
