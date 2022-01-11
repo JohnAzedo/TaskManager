@@ -1,10 +1,10 @@
 
 
 class TaskPO {
-  int id;
+  int? id;
   String text;
   bool done;
   bool visible;
 
-  TaskPO({required this.id, required this.text, required this.done, required this.visible});
+  TaskPO({this.id, required this.text, required this.done, required this.visible});
 }

@@ -6,7 +6,6 @@ import 'package:todos/ui/task_po.dart';
 class TaskViewModel extends ChangeNotifier {
 
   var tasks = ValueNotifier<List<TaskPO>>([]);
-
   void getTasks() {
     tasks.value = [
       TaskPO(id: 1, text: "Testing 1", done: true, visible: true),
@@ -39,6 +38,22 @@ class TaskViewModel extends ChangeNotifier {
 
   void changeStatus(int index){
     tasks.value[index].done = !tasks.value[index].done;
+    print(index.toString() + " has changed to " + tasks.value[index].done.toString());
     notifyListeners();
+  }
+
+  void deleteItem(int index){
+    tasks.value.removeAt(index);
+    print(index.toString() + " has been removed!");
+    notifyListeners();
+  }
+
+  void createItem(TaskPO task){
+    tasks.value.add(task);
+    notifyListeners();
+  }
+
+  void filterList(String text){
+    print(text);
   }
 }
