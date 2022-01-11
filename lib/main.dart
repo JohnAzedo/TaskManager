@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:todos/data/task_repository.dart';
+import 'package:todos/domain/task_usecase.dart';
 import 'package:todos/ui/task_screen.dart';
 import 'package:todos/ui/task_viewmodel.dart';
 
@@ -16,12 +18,17 @@ class App extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
           statusBarColor: Colors.white,
-          statusBarIconBrightness: Brightness.dark
-      ),
+          statusBarIconBrightness: Brightness.dark),
     );
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => TaskViewModel()),
+        ChangeNotifierProvider(
+          create: (_) => TaskViewModel(
+            useCase: TaskUseCaseImpl(
+              repository: TaskRepositoryImpl(),
+            ),
+          ),
+        ),
       ],
       child: MaterialApp(
         title: "Todo App",
@@ -37,7 +44,3 @@ class App extends StatelessWidget {
     );
   }
 }
-
-
-
-

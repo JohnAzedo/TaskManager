@@ -20,7 +20,7 @@ class TaskRepositoryImpl extends TaskRepository{
     final Database db = await getDatabase();
     int id = await db.insert(tableName, {
       "text": text,
-      "done": false
+      "done": 0,
     });
     return id != 0 ? id : null;
   }
@@ -46,7 +46,8 @@ class TaskRepositoryImpl extends TaskRepository{
   @override
   Future<Task?> update(int id, bool status) async {
     final Database db = await getDatabase();
-    int rowAffected = await db.update(tableName, {'done': status});
+
+    int rowAffected = await db.update(tableName, {'done': status ? 1 : 0}, where: "id = ?", whereArgs: [id]);
     if(rowAffected == 0) return null;
 
     List<Map<String, dynamic>> maps = await db.query(tableName,
@@ -55,6 +56,7 @@ class TaskRepositoryImpl extends TaskRepository{
         whereArgs: [id],
         limit: 1);
 
-    return Task.fromDB(maps.first);
+    Task task = Task.fromDB(maps.first);
+    return task;
   }
 }

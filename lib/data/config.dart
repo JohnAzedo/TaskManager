@@ -14,6 +14,7 @@ class Sqlite {
   }
 
   initializeDatabase() async {
+    // print(await getDatabasesPath());
     return await openDatabase(
       join(await getDatabasesPath(), 'tasks.db'),
       onCreate: _onCreate,

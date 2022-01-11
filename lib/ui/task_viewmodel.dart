@@ -1,59 +1,55 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:todos/domain/task.dart';
+import 'package:todos/domain/task_usecase.dart';
 import 'package:todos/ui/task_po.dart';
 
 class TaskViewModel extends ChangeNotifier {
-
+  final TaskUseCase useCase;
   var tasks = ValueNotifier<List<TaskPO>>([]);
-  void getTasks() {
-    tasks.value = [
-      TaskPO(id: 1, text: "Testing 1", done: true, visible: true),
-      TaskPO(id: 2, text: "Testing 2", done: false, visible: true),
-      TaskPO(id: 3, text: "Testing 3", done: true, visible: true),
-      TaskPO(id: 4, text: "Testing 4", done: false, visible: true),
-      TaskPO(id: 5, text: "Testing 5", done: true, visible: true),
-      TaskPO(id: 6, text: "Testing 6", done: false, visible: true),
-      TaskPO(id: 7, text: "Testing 7", done: true, visible: true),
-      TaskPO(id: 8, text: "Testing 8", done: false, visible: true),
-      TaskPO(id: 9, text: "Testing 9", done: true, visible: true),
-      TaskPO(id: 10, text: "Testing 10", done: false, visible: true),
-      TaskPO(id: 11, text: "Testing 11", done: true, visible: true),
-      TaskPO(id: 12, text: "Testing 12", done: false, visible: true),
-      TaskPO(id: 13, text: "Testing 13", done: true, visible: true),
-      TaskPO(id: 14, text: "Testing 14", done: false, visible: true),
-      TaskPO(id: 15, text: "Testing 15", done: true, visible: true),
-      TaskPO(id: 16, text: "Testing 16", done: false, visible: true),
-      TaskPO(id: 17, text: "Testing 17", done: true, visible: true),
-      TaskPO(id: 18, text: "Testing 18", done: false, visible: true),
-      TaskPO(id: 19, text: "Testing 19", done: true, visible: true),
-      TaskPO(id: 20, text: "Testing 20", done: false, visible: true),
-      TaskPO(id: 21, text: "Testing 21", done: true, visible: true),
-      TaskPO(id: 22, text: "Testing 22", done: false, visible: true),
-      TaskPO(id: 23, text: "Testing 23", done: true, visible: true),
-      TaskPO(id: 24, text: "Testing 24", done: false, visible: true),
-    ];
+
+  TaskViewModel({required this.useCase}){
+    getTasks();
+  }
+
+  void getTasks() async {
+    var listOfTasks = await useCase.fetchAll();
+    listOfTasks.forEach((element) {
+      tasks.value.add(TaskPO.fromTask(element));
+    });
     notifyListeners();
   }
 
-  void changeStatus(int index){
-    tasks.value[index].done = !tasks.value[index].done;
-    print(index.toString() + " has changed to " + tasks.value[index].done.toString());
-    notifyListeners();
+  void changeStatus(int index) async {
+    Task? task = tasks.value[index].toTask();
+    task = await useCase.changeStatus(task);
+
+    if(task!=null){
+      tasks.value[index] = TaskPO.fromTask(task);
+      notifyListeners();
+    }
   }
 
-  void deleteItem(int index){
-    tasks.value.removeAt(index);
-    print(index.toString() + " has been removed!");
-    notifyListeners();
+  void deleteItem(int index) async {
+    Task task = tasks.value[index].toTask();
+    bool removed = await useCase.delete(task.id!);
+    if(removed){
+      tasks.value.removeAt(index);
+      notifyListeners();
+    }
   }
 
-  void createItem(TaskPO task){
-    tasks.value.add(task);
-    notifyListeners();
+  void createItem(TaskPO taskPO) async {
+    Task? task = await useCase.create(taskPO.text);
+    if(task!=null){
+      tasks.value.add(TaskPO.fromTask(task));
+      notifyListeners();
+    }
   }
 
   void filterList(String text){
-    print(text);
+    tasks.value.forEach((element) => element.visible = element.text.startsWith(text));
+    notifyListeners();
   }
 }

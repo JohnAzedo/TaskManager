@@ -21,5 +21,5 @@ class Task{
   Task.fromDB(Map<String, dynamic> map):
       id = map['id'],
       text = map['text'],
-      done = map['done'];
+      done = map['done'] == 1;
 }

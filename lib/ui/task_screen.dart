@@ -91,40 +91,43 @@ class ItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dismissible(
-      key: Key(task.id.toString()),
-      onDismissed: (direction) => vm.deleteItem(index),
-      background: Container(
-        alignment: AlignmentDirectional.centerStart,
-        color: Colors.red,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Icon(
-            Icons.delete,
-            color: Colors.white,
+    return Visibility(
+      visible: task.visible,
+      child: Dismissible(
+        key: Key(task.id.toString()),
+        onDismissed: (direction) => vm.deleteItem(index),
+        background: Container(
+          alignment: AlignmentDirectional.centerStart,
+          color: Colors.red,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.delete,
+              color: Colors.white,
+            ),
           ),
         ),
-      ),
-      secondaryBackground: Container(
-        alignment: AlignmentDirectional.centerEnd,
-        color: Colors.red,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Icon(
-            Icons.delete,
-            color: Colors.white,
+        secondaryBackground: Container(
+          alignment: AlignmentDirectional.centerEnd,
+          color: Colors.red,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.delete,
+              color: Colors.white,
+            ),
           ),
         ),
-      ),
-      child: GestureDetector(
-        onTap: () {
-          vm.changeStatus(index);
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-          child: Container(
-            child: Text(task.text,
-                style: task.done ? lineThroughStyle() : normalStyle()),
+        child: GestureDetector(
+          onTap: () {
+            vm.changeStatus(index);
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+            child: Container(
+              child: Text(task.text,
+                  style: task.done ? lineThroughStyle() : normalStyle()),
+            ),
           ),
         ),
       ),
