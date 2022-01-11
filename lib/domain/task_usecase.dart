@@ -1,7 +1,5 @@
 
-import 'package:flutter/material.dart';
 import 'package:todos/domain/task.dart';
-import 'package:todos/ui/task_po.dart';
 import 'package:todos/domain/task_repository.dart';
 
 abstract class TaskUseCase {
