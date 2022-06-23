@@ -3,8 +3,10 @@ class Task{
   int? id;
   String text;
   bool done = false;
+  String? category;
+  DateTime? deadline;
 
-  Task({required this.id, required this.text, bool? done}){
+  Task({required this.id, required this.text, bool? done, this.category, this.deadline}){
     _setInitialStatus(done);
   }
 
