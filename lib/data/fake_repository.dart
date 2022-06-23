@@ -8,7 +8,9 @@ class FakeRepository extends TaskRepository {
   List<Task> tasks = [
     Task(id: 1, text: "Sprint 1", category: "Processo de software", deadline: DateTime(2022, 06, 23, 23, 59)),
     Task(id: 2, text: "Regressão Linear", category: "Bioestatística", deadline: DateTime(2022, 06, 30, 18, 00)),
-    Task(id: 3, text: "Criação do sile com HTML + CSS", category: "Desenvolvimento Web", deadline: DateTime(2022, 07, 02, 23, 00))
+    Task(id: 3, text: "Segunda avaliação", category: "Bioestatística", deadline: DateTime(2022, 07, 01, 10, 30)),
+    Task(id: 4, text: "Criação do sile com HTML + CSS", category: "Desenvolvimento Web", deadline: DateTime(2022, 07, 02, 23, 00)),
+    Task(id: 5, text: "Primeira prova", category: "Desenvolvimento Web", deadline: DateTime(2022, 07, 10, 11, 00))
   ];
 
   @override
@@ -29,15 +31,11 @@ class FakeRepository extends TaskRepository {
   @override
   Future<Task?> update(int id, bool status) {
     Task? changedTask;
-
-    tasks.map((task) => {
-      if(task.id == id) { task.done = status }
-    });
-
     tasks.forEach((element) {
       if(element.id == id) { changedTask = element; }
     });
 
+    changedTask?.done = status;
     return Future.delayed(Duration(milliseconds: 100), () => changedTask);
   }
 }

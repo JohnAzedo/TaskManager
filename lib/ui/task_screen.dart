@@ -18,19 +18,19 @@ class _TaskScreenState extends State<TaskScreen> {
   Widget build(BuildContext context) {
     final vm = context.watch<TaskViewModel>();
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return TaskDialog();
-            },
-          ).then(
-            (task) => vm.createItem(task),
-          );
-        },
-        child: Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     showDialog(
+      //       context: context,
+      //       builder: (BuildContext context) {
+      //         return TaskDialog();
+      //       },
+      //     ).then(
+      //       (task) => vm.createItem(task),
+      //     );
+      //   },
+      //   child: Icon(Icons.add),
+      // ),
       appBar: AppBar(
         title: Text(
           'Todo App',
@@ -95,29 +95,29 @@ class ItemView extends StatelessWidget {
       visible: task.visible,
       child: Dismissible(
         key: Key(task.id.toString()),
-        onDismissed: (direction) => vm.deleteItem(index),
-        background: Container(
-          alignment: AlignmentDirectional.centerStart,
-          color: Colors.red,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(
-              Icons.delete,
-              color: Colors.white,
-            ),
-          ),
-        ),
-        secondaryBackground: Container(
-          alignment: AlignmentDirectional.centerEnd,
-          color: Colors.red,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(
-              Icons.delete,
-              color: Colors.white,
-            ),
-          ),
-        ),
+        // onDismissed: (direction) => vm.deleteItem(index),
+        // background: Container(
+        //   alignment: AlignmentDirectional.centerStart,
+        //   color: Colors.red,
+        //   child: Padding(
+        //     padding: const EdgeInsets.all(8.0),
+        //     child: Icon(
+        //       Icons.delete,
+        //       color: Colors.white,
+        //     ),
+        //   ),
+        // ),
+        // secondaryBackground: Container(
+        //   alignment: AlignmentDirectional.centerEnd,
+        //   color: Colors.red,
+        //   child: Padding(
+        //     padding: const EdgeInsets.all(8.0),
+        //     child: Icon(
+        //       Icons.delete,
+        //       color: Colors.white,
+        //     ),
+        //   ),
+        // ),
         child: GestureDetector(
           onTap: () {
             vm.changeStatus(index);
@@ -125,8 +125,14 @@ class ItemView extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
             child: Container(
-              child: Text(task.text,
-                  style: task.done ? lineThroughStyle() : normalStyle()),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(task.text, style: task.done ? lineThroughStyle() : normalStyle()),
+                  Visibility(child: Text(task.category ?? "", style: deadlineStyle(task.done),), visible: true,),
+                  Visibility(child: Text(formatDatetime(task.deadline ?? DateTime.now()), style: deadlineStyle(task.done),), visible: true,),
+                ],
+              ),
             ),
           ),
         ),
@@ -144,4 +150,36 @@ TextStyle lineThroughStyle() {
       color: Colors.black,
       fontSize: 20.0,
       decoration: TextDecoration.lineThrough);
+}
+
+TextStyle categoryStyle(){
+  return TextStyle(
+    color: Colors.blueAccent,
+    fontSize: 16.0
+  );
+}
+
+TextStyle deadlineUrgentStyle(){
+  return TextStyle(
+    color: Colors.red,
+    fontSize: 16.0,
+    fontWeight: FontWeight.bold
+  );
+}
+
+TextStyle deadlineNormalStyle(){
+  return TextStyle(
+      color: Colors.black,
+      fontSize: 16.0,
+      fontWeight: FontWeight.normal
+  );
+}
+
+String formatDatetime(DateTime datetime){
+  return "${datetime.day.toString().padLeft(2, '0')}/${datetime.month.toString().padLeft(2, '0')}/${datetime.year} - ${datetime.hour}:${datetime.minute.toString().padLeft(2, '0')}";
+}
+
+TextStyle deadlineStyle(bool taskDone){
+  if(taskDone) return deadlineNormalStyle();
+  return deadlineUrgentStyle();
 }

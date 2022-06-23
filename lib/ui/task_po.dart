@@ -6,6 +6,8 @@ class TaskPO {
   String text;
   bool done;
   bool visible;
+  String? category;
+  DateTime? deadline;
 
   TaskPO({this.id, required this.text, required this.done, required this.visible});
 
@@ -13,7 +15,10 @@ class TaskPO {
       id = task.id,
       text = task.text,
       done = task.done,
-      visible = true;
+      visible = true,
+      category = task.category,
+      deadline = task.deadline;
+
 
   Task toTask() => Task(id: id, text: this.text, done: this.done);
 }

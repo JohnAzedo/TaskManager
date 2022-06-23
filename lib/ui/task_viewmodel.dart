@@ -49,7 +49,15 @@ class TaskViewModel extends ChangeNotifier {
   }
 
   void filterList(String text){
-    tasks.value.forEach((element) => element.visible = element.text.startsWith(text));
+    tasks.value.forEach((element) => element.visible = element.text.startsWith(text) || filterByCategory(element, text));
     notifyListeners();
+  }
+
+  bool filterByCategory(TaskPO task, String text) {
+    final category = task.category;
+    if(category != null) {
+      return category.startsWith(text);
+    }
+    return false;
   }
 }
