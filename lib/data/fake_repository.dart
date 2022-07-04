@@ -13,10 +13,9 @@ class FakeRepository extends TaskRepository {
     Task(id: 5, text: "Primeira prova", category: "Desenvolvimento Web", deadline: DateTime(2022, 07, 10, 11, 00)),
     Task(id: 6, text: "Apresentação", category: "Processo de software", deadline: DateTime(2022, 07, 5, 11, 00)),
     Task(id: 7, text: "Apresentação última etapa", category: "Processo de software", deadline: DateTime(2022, 07, 27, 11, 00)),
-    Task(id: 8, text: "Trabalho", category: "Desenvolvimento Web", deadline: DateTime(2022, 07, 15, 11, 00)),
+    Task(id: 8, text: "Trabalho Prático", category: "Desenvolvimento Web", deadline: DateTime(2022, 07, 15, 11, 00)),
     Task(id: 9, text: "Segunda prova", category: "Desenvolvimento Web", deadline: DateTime(2022, 09, 10, 11, 00))
   ];
-  
 
   @override
   Future<int?> create(String text) {
