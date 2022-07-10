@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:todos/data/fake_repository.dart';
 import 'package:todos/data/task_repository.dart';
 import 'package:todos/domain/task_usecase.dart';
+import 'package:todos/ui/colors.dart';
 import 'package:todos/ui/task_screen.dart';
 import 'package:todos/ui/task_viewmodel.dart';
 
@@ -35,11 +36,10 @@ class App extends StatelessWidget {
         title: "Todo App",
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primaryColor: Colors.white,
-          backgroundColor: Colors.white,
-          primarySwatch: Colors.blue,
-          scaffoldBackgroundColor: Colors.white,
-        ),
+            primaryColor: CustomColors.primary,
+            backgroundColor: CustomColors.background,
+            scaffoldBackgroundColor: CustomColors.background,
+            secondaryHeaderColor: CustomColors.accent),
         home: TaskScreen(),
       ),
     );
