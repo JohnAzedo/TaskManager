@@ -6,14 +6,14 @@ import 'package:todos/domain/task_repository.dart';
 class FakeRepository extends TaskRepository {
 
   List<Task> tasks = [
-    Task(id: 1, text: "Sprint 1", category: "Processo de software", deadline: DateTime(2022, 06, 23, 23, 59)),
-    Task(id: 2, text: "Regressão Linear", category: "Bioestatística", deadline: DateTime(2022, 06, 30, 18, 00)),
+    Task(id: 1, text: "Enviar artefatos desenvolvidos na 2º Unidade", category: "Processo de software", deadline: DateTime(2022, 06, 30, 23, 59)),
+    Task(id: 2, text: "Atividade sobre o Tópico 3 (Scrum)", category: "Bioestatística", deadline: DateTime(2022, 06, 30, 18, 00)),
     Task(id: 3, text: "Segunda avaliação", category: "Bioestatística", deadline: DateTime(2022, 07, 01, 10, 30)),
-    Task(id: 4, text: "Criação do sile com HTML + CSS", category: "Desenvolvimento Web", deadline: DateTime(2022, 07, 02, 23, 00)),
-    Task(id: 5, text: "Primeira prova", category: "Desenvolvimento Web", deadline: DateTime(2022, 07, 10, 11, 00)),
-    Task(id: 6, text: "Apresentação", category: "Processo de software", deadline: DateTime(2022, 07, 5, 11, 00)),
-    Task(id: 7, text: "Apresentação última etapa", category: "Processo de software", deadline: DateTime(2022, 07, 27, 11, 00)),
-    Task(id: 8, text: "Trabalho Prático", category: "Desenvolvimento Web", deadline: DateTime(2022, 07, 15, 11, 00)),
+    Task(id: 4, text: "Trabalho Prático: Análise de Padrões de Projeto e Refatoração em Sistemas de Software", category: "Desenvolvimento Web", deadline: DateTime(2022, 07, 01, 23, 00)),
+    Task(id: 5, text: "Avaliações finais de projeto (Grupo A)", category: "Desenvolvimento Web", deadline: DateTime(2022, 07, 01, 11, 00)),
+    Task(id: 6, text: "Avaliações finais de projeto (Grupo B)", category: "Processo de software", deadline: DateTime(2022, 07, 05, 11, 00)),
+    Task(id: 7, text: "Apresentação última etapa", category: "Processo de software", deadline: DateTime(2022, 07, 11, 11, 00)),
+    Task(id: 8, text: "Terceira avaliação", category: "Desenvolvimento Web", deadline: DateTime(2022, 07, 11, 11, 00)),
     Task(id: 9, text: "Segunda prova", category: "Desenvolvimento Web", deadline: DateTime(2022, 09, 10, 11, 00))
   ];
 
