@@ -14,20 +14,36 @@ class TodoListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TodoDay(date: entry.key),
-        ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: entry.value.length,
-          itemBuilder: (context, index) {
-            return TodoCard(
-                task: entry.value[index], vm: vm);
-          },
-        )
-      ],
+    return Visibility(
+      visible: dayIsVisible(),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 24.0),
+        child: Column(
+          children: [
+            TodoDay(date: entry.key),
+            ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: entry.value.length,
+              itemBuilder: (context, index) {
+                return TodoCard(
+                    task: entry.value[index], vm: vm, day: entry.key, index: index,);
+              },
+            )
+          ],
+        ),
+      ),
     );
+  }
+
+  bool dayIsVisible(){
+    var result = false;
+    entry.value.forEach((element) {
+      if(element.visible){
+        result = true;
+      }
+    });
+    return result;
   }
 
 }

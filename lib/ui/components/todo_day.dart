@@ -11,7 +11,7 @@ class TodoDay extends StatelessWidget {
   Widget build(BuildContext context) {
     return Visibility(
       child: Padding(
-        padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8.0, top: 24.0),
+        padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8.0, top: 0.0),
         child: Row(
           children: [
             Text(this.date, style: _getDateStyle(),)

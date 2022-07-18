@@ -4,10 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:todos/ui/colors.dart';
 
 class SearchField extends StatelessWidget {
+  final Function(String) onChangedField;
+
+  SearchField({required this.onChangedField});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
       child: TextField(
         cursorColor: CustomColors.primary,
         decoration: const InputDecoration(
@@ -26,7 +30,7 @@ class SearchField extends StatelessWidget {
           EdgeInsets.symmetric(vertical: 15, horizontal: 15),
         ),
         keyboardType: TextInputType.name,
-        onChanged: (String text) => { },
+        onChanged: onChangedField,
       ),
     );
   }

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:todos/domain/order_task_usecase.dart';
+import 'package:todos/domain/task.dart';
 import 'package:todos/domain/task_usecase.dart';
 import 'package:todos/ui/task_po.dart';
 
@@ -24,6 +25,14 @@ class TaskViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void changeStatus(String key, int index) async {
+    if(tasks.value.containsKey(key)){
+      TaskPO task = tasks.value[key]!.elementAt(index);
+      task.done = !task.done;
+      tasks.value[key]?[index] = task;
+      notifyListeners();
+    }
+  }
   // void changeStatus(int index) async {
   //   Task? task = tasks.value[index].toTask();
   //   task = await useCase.changeStatus(task);
@@ -50,16 +59,20 @@ class TaskViewModel extends ChangeNotifier {
   //     notifyListeners();
   //   }
   // }
-  // void filterList(String text){
-  //   tasks.value.forEach((element) => element.visible = element.text.startsWith(text) || filterByCategory(element, text));
-  //   notifyListeners();
-  // }
-  //
-  // bool filterByCategory(TaskPO task, String text) {
-  //   final category = task.category;
-  //   if(category != null) {
-  //     return category.startsWith(text);
-  //   }
-  //   return false;
-  // }
+
+  void filterList(String text){
+    tasks.value.forEach((key, value) {
+      value.forEach((element) => element.visible = element.text.startsWith(text) || filterByCategory(element, text));
+    });
+
+    notifyListeners();
+  }
+
+  bool filterByCategory(TaskPO task, String text) {
+    final category = task.category;
+    if(category != null) {
+      return category.startsWith(text);
+    }
+    return false;
+  }
 }

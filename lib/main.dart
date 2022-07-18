@@ -20,7 +20,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
-          statusBarColor: Colors.white,
+          statusBarColor: CustomColors.background,
           statusBarIconBrightness: Brightness.dark),
     );
     return MultiProvider(

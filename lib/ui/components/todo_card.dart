@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:todos/ui/task_screen.dart';
 
 import '../colors.dart';
@@ -9,56 +8,61 @@ import '../task_viewmodel.dart';
 class TodoCard extends StatelessWidget {
   final TaskPO task;
   final TaskViewModel vm;
+  final int index;
+  final String day;
 
-  const TodoCard({required this.task, required this.vm});
+  const TodoCard({required this.task, required this.vm, required this.index, required this.day});
 
   @override
   Widget build(BuildContext context) {
     return Visibility(
-        child: GestureDetector(
-      onTap: () => /*vm.changeStatus(index)*/ {},
-      child: Card(
-        elevation: 4.0,
-        color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Wrap(
-                spacing: 8,
-                children: [
-                  // Badge(
-                  //   text: formatTime(task.deadline ?? DateTime.now()),
-                  //   textColor: CustomColors.primary,
-                  //   backgroundColor: CustomColors.primaryLight,
-                  // ),
-                  Badge(
-                    text: task.category ?? "",
-                    textColor: CustomColors.accent,
-                    backgroundColor: CustomColors.accentLight,
-                  ),
-                ],
-              ),
-              SizedBox(height: 16.0,),
-              Text(
-                task.text,
-                style: TextStyle(
-                    color: CustomColors.primary),
-              ),
-              SizedBox(height: 16.0,),
-              Text(
-                formatTime(task.deadline ?? DateTime.now()),
-                style: TextStyle(
-                    color: Colors.grey,
-                  fontSize: 12.0
+      visible: task.visible,
+      child: GestureDetector(
+        onTap: () => vm.changeStatus(this.day, this.index),
+        child: Card(
+          elevation: 4.0,
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Wrap(
+                  spacing: 8,
+                  children: [
+                    Badge(
+                      text: task.category ?? "",
+                      textColor: CustomColors.accent,
+                      backgroundColor: CustomColors.accentLight,
+                    ),
+                  ],
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: 16.0,
+                ),
+                Text(
+                  task.text,
+                  style: getStyle(),
+                ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                Text(
+                  formatTime(task.deadline ?? DateTime.now()),
+                  style: TextStyle(color: Colors.grey, fontSize: 12.0),
+                ),
+              ],
+            ),
           ),
         ),
       ),
-    ));
+    );
+  }
+
+  TextStyle getStyle(){
+    if(task.done) return TextStyle(color: CustomColors.primary, decoration: TextDecoration.lineThrough);
+
+    return TextStyle(color: CustomColors.primary);
   }
 }
 
@@ -89,16 +93,12 @@ class Badge extends StatelessWidget {
   }
 }
 
-
-
-
 TextStyle lineThroughStyle() {
   return TextStyle(
       color: Colors.white,
       fontSize: 16.0,
       decoration: TextDecoration.lineThrough);
 }
-
 
 String formatDate(DateTime datetime) {
   return "${datetime.day.toString().padLeft(2, '0')}/${datetime.month.toString().padLeft(2, '0')}/${datetime.year}";
